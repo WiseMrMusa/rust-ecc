@@ -1,5 +1,5 @@
-pub trait isPrime {
-    fn isPrime(&self) -> bool;
+pub trait IsPrime {
+    fn is_prime(&self) -> bool;
 }
 
 
@@ -66,7 +66,7 @@ fn mod_pow(mut base: u64, mut exp: u64, modulus: u64) -> u64 {
     result
 }
 
-pub trait isField{
+pub trait IsField{
     fn zero() -> Self;
     fn one() -> Self;
     fn inv(a: Self) -> Self;

@@ -1,6 +1,6 @@
 use std::fmt::{Display, Formatter, Result};
 use std::ops::{Add, BitXor, Mul};
-use super::traits::{ isPrime, is_prime};
+use super::traits::{ IsPrime, is_prime};
 
 #[derive(Debug, Copy, Clone)]
 pub struct Field {
@@ -39,8 +39,8 @@ impl Display for Field {
     }
 }
 
-impl isPrime for Field {
-    fn isPrime(&self) -> bool {
+impl IsPrime for Field {
+    fn is_prime(&self) -> bool {
         is_prime(self.p, 12)
     }
 }
