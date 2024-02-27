@@ -1,4 +1,4 @@
-use ecc::finite_field::{field::{self,Field, FieldTrait}, ball};
+use ecc::{finite_field::{field::{self,Field, FieldTrait}, ball}, elliptic_curve::short_weierstrass::ecc_def};
 
 fn main() {
     let a = Field::new(3,9);
@@ -18,4 +18,5 @@ fn main() {
     ball::play();
 
     field::main();
+    ecc_def::main();
 }
