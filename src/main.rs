@@ -1,4 +1,4 @@
-use ecc::finite_field::{field::{Field, FieldTrait}, ball};
+use ecc::finite_field::{field::{self,Field, FieldTrait}, ball};
 
 fn main() {
     let a = Field::new(3,9);
@@ -16,4 +16,6 @@ fn main() {
     println!("{} * {} = {}", a,b,c);
     println!("Hello, world!");
     ball::play();
+
+    field::main();
 }

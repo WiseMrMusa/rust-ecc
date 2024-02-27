@@ -1,7 +1,6 @@
 use std::fmt::{Display, Formatter, Result};
-use std::ops::{Add,Mul, Div, Sub};
-use super::traits::{isPrime, is_prime};
-
+use std::ops::{Add, BitXor, Mul};
+use super::traits::{ isPrime, is_prime};
 
 #[derive(Debug, Copy, Clone)]
 pub struct Field {
@@ -11,6 +10,14 @@ pub struct Field {
 
 pub trait FieldTrait {
     fn new(a: u64, p: u64) -> Self;
+    fn inv(self) -> Self;
+}
+
+pub trait Pow<RHS> {
+    type Output;
+
+    // Required method
+    fn pow(self, rhs: RHS) -> Self::Output;
 }
 
 impl FieldTrait for Field {
@@ -18,13 +25,13 @@ impl FieldTrait for Field {
         assert!(a < p, "Not an element of the prime field");
         Field {a,p}
     }
-}
 
-impl Default for Field {
-    fn default() -> Self{
-        Field{a:5,p:8}
+    fn inv(self) -> Self{
+        self ^ (self.p as usize - 2)
     }
 }
+
+
 
 impl Display for Field {
     fn fmt(&self, f:&mut Formatter<'_>) -> Result {
@@ -62,4 +69,48 @@ impl Mul for Field {
             p: self.p
         }
     }
+}
+
+impl PartialEq for Field{
+    fn eq(&self, other: &Self) -> bool {
+        assert_eq!(self.p,other.p, "You can only compare between same field");
+        self.a == other.a
+    }
+}
+
+impl Eq for Field {}
+
+impl BitXor<usize> for Field{
+    type Output = Field;
+    fn bitxor(self, rhs: usize) -> Field {
+        let n = if rhs > self.p as usize {
+            rhs % self.p as usize
+        } else {
+            rhs
+        };
+        let mut res =self;
+        for _ in 2..=n{
+            res = res * self;
+        } 
+        res
+    }
+}
+
+
+pub fn main() {
+    println!("A main function from the finite field village");
+    let a = Field::new(3, 5);
+    let b = 5;
+    // let b = Field::new(2, 7);
+    let c = a^b;
+    println!("{a}^{b} = {c}");
+
+    println!("INVERSE ELEMENT");
+    let a = Field::new(436,563);
+    let b = a.inv();
+    println!("The inverse of {a} is {b}");
+    // let zero = Field::new(0,13);
+    // let any_number = Field::new(2,7);
+    // let identity = any_number + zero == any_number;
+    // println!("Zero is an identity: {identity}");
 }
